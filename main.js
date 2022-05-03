@@ -49,7 +49,19 @@ const container = document.getElementById("container");
 
 
 posts.forEach( (post)=>{
-    createPost(container, post);
+    domPost=createPost(container, post);
+    const likeBtn = domPost.querySelector(".like-button");
+    console.log(likeBtn);
+    let counter = post.likes;
+    likeBtn.addEventListener("click",function(){
+        likeBtn.classList.toggle("like-button--liked");
+        if (likeBtn.classList.contains("like-button--liked")){
+            counter++;
+        } else {
+            counter--;
+        }
+        document.getElementById(`like-counter-${post.id}`).innerHTML=counter;
+    });
 } );
 
 
@@ -75,19 +87,22 @@ function createPost(container, element){
             <div class="post__footer">
                 <div class="likes js-likes">
                     <div class="likes__cta">
-                        <a class="like-button  js-like-button" href="#" data-postid="1">
+                        <a class="like-button  js-like-button" href="#" data-postid="${element.id}">
                             <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                             <span class="like-button__label">Mi Piace</span>
                         </a>
                     </div>
                     <div class="likes__counter">
-                        Piace a <b id="like-counter-1" class="js-likes-counter">${element.likes}</b> persone
+                        Piace a <b id="like-counter-${element.id}" class="js-likes-counter">${element.likes}</b> persone
                     </div>
                 </div> 
             </div>`
     checks(post, element.media, element.author);
     container.append(post);
+    return post;
 }
+
+
 
 function checks (domElement, media, author){
     if (media === ""){
@@ -111,3 +126,4 @@ function checks (domElement, media, author){
         defaultPic.innerHTML=frstName+scndName;
     }
 }
+
