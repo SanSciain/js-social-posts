@@ -85,13 +85,18 @@ function createPost(container, element){
                     </div>
                 </div> 
             </div>`
-    if (element.media === ""){
-        const imageContainer = post.querySelector(".post__image");
+    checks(post, element.media, element.author);
+    container.append(post);
+}
+
+function checks (domElement, media, author){
+    if (media === ""){
+        const imageContainer = domElement.querySelector(".post__image");
         const image = imageContainer.querySelector("img");
         image.remove();
     }
-    if (element.author.image === ""){
-        const pfpContainer = post.querySelector(".post-meta__icon");
+    if (author.image === ""){
+        const pfpContainer = domElement.querySelector(".post-meta__icon");
         const image = pfpContainer.querySelector("img");
         image.remove();
         const defaultContainer=document.createElement("div");
@@ -99,11 +104,10 @@ function createPost(container, element){
         const defaultPic = document.createElement("span");
         pfpContainer.append(defaultContainer);
         defaultContainer.append(defaultPic);
-        const userName = element.author.name;
+        const userName = author.name;
         nameString=userName.split(" ");
         frstName = nameString[0].charAt(0);
         scndName = nameString[1].charAt(0);
         defaultPic.innerHTML=frstName+scndName;
     }
-    container.append(post);
 }
