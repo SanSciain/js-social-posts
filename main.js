@@ -49,19 +49,9 @@ const container = document.getElementById("container");
 
 
 posts.forEach( (post)=>{
+    post.created=europeanData(post.created);
     domPost=createPost(container, post);
-    const likeBtn = domPost.querySelector(".like-button");
-    console.log(likeBtn);
-    let counter = post.likes;
-    likeBtn.addEventListener("click",function(){
-        likeBtn.classList.toggle("like-button--liked");
-        if (likeBtn.classList.contains("like-button--liked")){
-            counter++;
-        } else {
-            counter--;
-        }
-        document.getElementById(`like-counter-${post.id}`).innerHTML=counter;
-    });
+    likes(domPost, post);
 } );
 
 
@@ -127,3 +117,23 @@ function checks (domElement, media, author){
     }
 }
 
+function europeanData(postDate){
+    dateString=postDate.split("-");
+    const formatedDate = `${dateString[2]}-${dateString[1]}-${dateString[0]}`
+    return formatedDate;
+}
+
+function likes(domPost, post){
+    const likeBtn = domPost.querySelector(".like-button");
+    console.log(likeBtn);
+    let counter = post.likes;
+    likeBtn.addEventListener("click",function(){
+        likeBtn.classList.toggle("like-button--liked");
+        if (likeBtn.classList.contains("like-button--liked")){
+            counter++;
+        } else {
+            counter--;
+        }
+        document.getElementById(`like-counter-${post.id}`).innerHTML=counter;
+    });
+}
