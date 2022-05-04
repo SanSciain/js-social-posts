@@ -27,7 +27,7 @@ const posts = [
         "media": "",
         "author": {
             "name": "Gino Magi",
-            "image": "https://unsplash.it/300/300?image=12"
+            "image": ""
         },
         "likes": 1000,
         "created": "2021-04-05"
@@ -37,7 +37,7 @@ const posts = [
         "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
         "media": "https://unsplash.it/600/300?image=173",
         "author": {
-            "name": "Pino Cavalli",
+            "name": "Pino Cavalli Alberti",
             "image": ""
         },
         "likes": 180,
@@ -111,15 +111,18 @@ function checks (domElement, media, author){
         defaultContainer.append(defaultPic);
         const userName = author.name;
         nameString=userName.split(" ");
-        frstName = nameString[0].charAt(0);
-        scndName = nameString[1].charAt(0);
-        defaultPic.innerHTML=frstName+scndName;
+        nameString.forEach( (name, index) => {
+            frstName = nameString[index].charAt(0);
+            defaultPic.innerHTML += frstName;
+        } )
+        
     }
 }
 
 function europeanData(postDate){
-    dateString=postDate.split("-");
-    const formatedDate = `${dateString[2]}-${dateString[1]}-${dateString[0]}`
+    const dateString=postDate.split("-");
+    // const formatedDate = `${dateString[2]}-${dateString[1]}-${dateString[0]}`;
+    const formatedDate = dateString.reverse().join("-");
     return formatedDate;
 }
 
@@ -127,7 +130,8 @@ function likes(domPost, post){
     const likeBtn = domPost.querySelector(".like-button");
     console.log(likeBtn);
     let counter = post.likes;
-    likeBtn.addEventListener("click",function(){
+    likeBtn.addEventListener("click",function(event){
+        event.preventDefault(); //server per evitare il comportamento di default (in questo caso dell'anchor tag che riporta alla parte superiore della pagina quando cliccato)
         likeBtn.classList.toggle("like-button--liked");
         if (likeBtn.classList.contains("like-button--liked")){
             counter++;
